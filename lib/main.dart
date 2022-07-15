@@ -1,18 +1,30 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Simple Interest Calculator',
       home: SIForm(),
       theme: ThemeData(
-          primaryColor: Colors.green.shade300,
+          primaryColor: Colors.blueAccent,
+          primaryColorLight: Colors.blue.shade400,
+          primaryColorDark: Colors.blue,
           accentColor: Colors.green.shade300,
-          brightness: Brightness.dark),
+          brightness: Brightness.light,
+          fontFamily: 'Rajdhani',
+          textTheme: TextTheme(
+            headline6: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.blue.shade400,
+            ),
+            bodyText2: const TextStyle(fontWeight: FontWeight.normal),
+          )),
     ),
   );
 }
-
 
 class SIForm extends StatefulWidget {
   @override
@@ -40,10 +52,11 @@ class _SIForm_state extends State<SIForm> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle? textStyle = Theme.of(context).textTheme.titleMedium;
+    TextStyle? textStyle = Theme.of(context).textTheme.headline6;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Simple Interest Calculator'),
+        backgroundColor: Theme.of(context).accentColor,
       ),
       body: Form(
           //margin: EdgeInsets.all(_minimumpadding * 2),
@@ -154,14 +167,21 @@ class _SIForm_state extends State<SIForm> {
                     child: Row(
                       children: [
                         Expanded(
-                          child: RaisedButton(
+                          child: ElevatedButton(
                               child: const Text(
                                 'Calculate',
                                 textScaleFactor: 1.5,
                               ),
-                              textColor: Theme.of(context).primaryColorDark,
-                              elevation: 6.0,
-                              color: Colors.red.shade400,
+                              style: ButtonStyle(
+                                elevation:
+                                    MaterialStateProperty.all<double>(6.0),
+                                    textStyle: MaterialStateProperty.all(const TextStyle(fontWeight: FontWeight.bold)),
+                                    // foregroundColor: MaterialStateProperty.all<Color>(Theme.of(context).accentColor),
+                                    backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).primaryColorLight),
+                              ),
+                              //  textColor: Theme.of(context).primaryColorDark,
+                              // elevation: 6.0,
+                              // color: Theme.of(context).primaryColorLight,
                               onPressed: () {
                                 setState(() {
                                   if (_formkey.currentState?.validate() ??
@@ -172,15 +192,23 @@ class _SIForm_state extends State<SIForm> {
                               }),
                         ),
                         Expanded(
-                          child: RaisedButton(
+                          child: ElevatedButton(
                               child: Text(
                                 'Reset',
                                 textScaleFactor: 1.5,
                               ),
-                              textColor: Theme.of(context).primaryColorLight,
-                              colorBrightness: Brightness.dark,
-                              elevation: 6.0,
-                              color: Colors.blue.shade200,
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all( Theme.of(context).accentColor ),
+                                textStyle: MaterialStateProperty.all(const TextStyle(fontWeight: FontWeight.bold)),
+
+                                // foregroundColor: MaterialStateProperty.all( Theme.of(context).primaryColorDark),
+                                elevation: MaterialStateProperty.all<double>(6.0),
+                                
+                              ),
+                              // textColor: Theme.of(context).primaryColorDark,
+                              // colorBrightness: Brightness.dark,
+                              // elevation: 6.0,
+                              // color: Theme.of(context).colorScheme.secondary,
                               onPressed: () {
                                 setState(() {
                                   _reset();
@@ -203,7 +231,7 @@ class _SIForm_state extends State<SIForm> {
   }
 
   Widget getimageasset() {
-    AssetImage assetImage = const AssetImage('images/bank.png');
+    AssetImage assetImage = const AssetImage('images/simple_interest.png');
     Image image = Image(
       image: assetImage,
       width: 125.0,
